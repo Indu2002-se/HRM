@@ -1,4 +1,4 @@
-# 🏢 HRM System - Human Resource Management
+# 🏢 Employee Management System (EMS) - Human Resource Management
 
 A modern, full-stack Employee Management System with advanced face recognition attendance tracking.
 
