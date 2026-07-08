@@ -401,34 +401,4 @@ The system shall be accepted if:
 
 ---
 
-# 9. Technology Stack (Recommended)
-
-Frontend
-
-- React.js
-- Tailwind CSS
-- TypeScript
-- React Router
-- Axios
-
-Backend
-
-- Node.js
-- Express.js
-- Prisma ORM
-
-Database
-
-- PostgreSQL
-
-Authentication
-
-- JWT
-- bcrypt
-
-Deployment
-
-- Docker
-- Nginx
-- Vercel (Frontend)
-- Railway / Render / AWS (Backend)
+# 

@@ -8,6 +8,7 @@ import Leaves from './pages/Leaves';
 import Profile from './pages/Profile';
 import './App.css';
 
+
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
 

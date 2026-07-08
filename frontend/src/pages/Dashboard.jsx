@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { attendanceAPI } from '../services/api';
 import Header from '../components/layout/Header';
+import FaceVerifyModal from '../components/face/FaceVerifyModal';
 import './Dashboard.css';
+import { loadFaceModels } from "../utils/faceApiLoader";
+
+
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -12,10 +16,18 @@ const Dashboard = () => {
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
   const [loading, setLoading] = useState(true);
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [verifyAction, setVerifyAction] = useState(null);
+  const [currentAttendanceId, setCurrentAttendanceId] = useState(null);
+  
 
   useEffect(() => {
     fetchDashboardData();
   }, [month, year]);
+  
+  useEffect(() => {
+    loadFaceModels();
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -97,26 +109,28 @@ const Dashboard = () => {
   };
 
   const handleCheckIn = async () => {
-    try {
-      await attendanceAPI.checkIn();
-      alert('Checked in successfully!');
-      fetchDashboardData();
-    } catch (error) {
-      alert(error.message || 'Failed to check in');
-    }
+    setVerifyAction('check_in');
+    setShowVerifyModal(true);
   };
 
   const handleCheckOut = async () => {
     try {
       const attendances = await attendanceAPI.getAttendances({ per_page: 1 });
       if (attendances.data.length > 0) {
-        await attendanceAPI.checkOut(attendances.data[0].id);
-        alert('Checked out successfully!');
-        fetchDashboardData();
+        setCurrentAttendanceId(attendances.data[0].id);
+        setVerifyAction('check_out');
+        setShowVerifyModal(true);
+      } else {
+        alert('No active check-in found');
       }
     } catch (error) {
-      alert(error.message || 'Failed to check out');
+      alert(error.message || 'Failed to fetch attendance');
     }
+  };
+
+  const handleVerifySuccess = () => {
+    setShowVerifyModal(false);
+    fetchDashboardData();
   };
 
   if (loading) {
@@ -137,11 +151,11 @@ const Dashboard = () => {
         <div className="dashboard-actions">
           {!todayStatus?.checked_in ? (
             <button onClick={handleCheckIn} className="verify-btn">
-              📍 Check In
+              📍 Verify & Check In
             </button>
           ) : !todayStatus?.checked_out ? (
             <button onClick={handleCheckOut} className="verify-btn checkout-btn">
-              🏁 Check Out
+              🏁 Verify & Check Out
             </button>
           ) : (
             <button className="verify-btn disabled" disabled>
@@ -291,8 +305,17 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+
+        <FaceVerifyModal
+          isOpen={showVerifyModal}
+          onClose={() => setShowVerifyModal(false)}
+          action={verifyAction}
+          attendanceId={currentAttendanceId}
+          onSuccess={handleVerifySuccess}
+        />
       </div>
     </div>
+    
   );
 };
 

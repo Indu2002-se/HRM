@@ -1,3 +1,39 @@
+:root {
+  /* Dark Green + Black Theme */
+  --primary-bg: #0a0f0d;
+  --secondary-bg: #0f1713;
+  --tertiary-bg: #162520;
+  --card-bg: #1a2d26;
+  --hover-bg: #1f3d32;
+  
+  --primary-green: #16a34a;
+  --dark-green: #15803d;
+  --light-green: #22c55e;
+  --accent-green: #10b981;
+  
+  --text-primary: #e8f5e9;
+  --text-secondary: #a7c4b5;
+  --text-muted: #6b8279;
+  
+  --border-color: #1f3d32;
+  --border-hover: #22c55e;
+  
+  --success: #22c55e;
+  --warning: #eab308;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,25 +42,118 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #f9fafb;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  background-color: var(--secondary-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary-green);
+  text-decoration: inherit;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--light-green);
 }
 
 button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
   font-family: inherit;
+  background-color: var(--primary-green);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--dark-green);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--light-green);
+  outline-offset: 2px;
 }
 
 input,
-select,
-textarea {
+textarea,
+select {
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6em;
   font-family: inherit;
+  transition: all 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-green);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-green);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--primary-green);
+  color: white;
 }

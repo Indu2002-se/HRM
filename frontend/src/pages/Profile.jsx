@@ -1,9 +1,32 @@
 import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
 import Header from '../components/layout/Header';
+import FaceEnrollment from '../components/face/FaceEnrollment';
 import './Profile.css';
 
 const Profile = () => {
   const { user } = useAuth();
+  const [faceStatus, setFaceStatus] = useState(null);
+
+  useEffect(() => {
+    fetchFaceStatus();
+  }, []);
+
+  const fetchFaceStatus = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8000/api/face/status', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+      });
+      const data = await response.json();
+      setFaceStatus(data.data);
+    } catch (error) {
+      console.error('Error fetching face status:', error);
+    }
+  };
 
   return (
     <div className="page-container">
@@ -60,6 +83,8 @@ const Profile = () => {
               </div>
             </div>
           </div>
+
+          <FaceEnrollment faceStatus={faceStatus} onEnrollSuccess={fetchFaceStatus} />
         </div>
       </div>
     </div>

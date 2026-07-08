@@ -76,4 +76,25 @@ export const leaveAPI = {
   getBalance: () => request('/leaves/balance'),
 };
 
-export default { authAPI, profileAPI, attendanceAPI, leaveAPI };
+export const faceAPI = {
+  getStatus: () => request('/face/status'),
+  enroll: (descriptor) => request('/face/enroll', {
+    method: 'POST',
+    body: JSON.stringify({ face_descriptor: descriptor }),
+  }),
+  verify: (action, descriptor, attendanceId = null) => {
+    const payload = {
+      action,
+      face_descriptor: descriptor,
+    };
+    if (attendanceId) {
+      payload.attendance_id = attendanceId;
+    }
+    return request('/attendances/verify', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+};
+
+export default { authAPI, profileAPI, attendanceAPI, leaveAPI, faceAPI };

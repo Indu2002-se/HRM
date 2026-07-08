@@ -105,9 +105,17 @@ class AttendanceController extends Controller
         $descriptor = $request->validated('face_descriptor');
         $action = $request->validated('action');
 
-        if (!$this->faceService->verify($user, $descriptor)) {
+        try {
+            // Verify will throw exception if not enrolled or verification fails
+            if (!$this->faceService->verify($user, $descriptor)) {
+                return response()->json([
+                    'message' => 'Face verification failed. Please try again.',
+                ], 403);
+            }
+        } catch (\Exception $e) {
+            // Handle enrollment check or other errors
             return response()->json([
-                'message' => 'Face verification failed. Please try again.',
+                'message' => $e->getMessage(),
             ], 403);
         }
 

@@ -1,7 +1,7 @@
 .main-layout {
   display: flex;
   min-height: 100vh;
-  background: #f9fafb;
+  background: var(--primary-bg);
 }
 
 .content-wrapper {
@@ -14,4 +14,5 @@
 .page-content {
   flex: 1;
   padding: 30px;
+  background: var(--primary-bg);
 }

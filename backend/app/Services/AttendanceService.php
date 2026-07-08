@@ -61,7 +61,8 @@ class AttendanceService
             throw new \Exception('Already checked out');
         }
 
-        $checkIn = Carbon::parse($attendance->date . ' ' . $attendance->check_in);
+        // Fix: Use toDateString() to get only the date part
+        $checkIn = Carbon::parse($attendance->date->toDateString() . ' ' . $attendance->check_in);
         $checkOut = Carbon::now();
         
         $workedHours = $checkOut->diffInMinutes($checkIn) / 60;
